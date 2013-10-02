@@ -1,0 +1,187 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body{
+  color:#444;
+  font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman',
+              "Hiragino Sans GB", "STXihei", "微软雅黑", serif;
+  font-size:12px;
+  line-height:1.5em;
+  background:#fefefe;
+  width: 45em;
+  margin: 10px auto;
+  padding: 1em;
+  outline: 1300px solid #FAFAFA;
+}
+
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+
+span.backtick {
+  border:1px solid #EAEAEA;
+  border-radius:3px;
+  background:#F8F8F8;
+  padding:0 3px 0 3px;
+}
+
+::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+::selection{background:rgba(255,255,0,0.3);color:#000}
+
+a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+
+p{
+margin:1em 0;
+}
+
+img{
+max-width:100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+font-weight:normal;
+color:#111;
+line-height:1em;
+}
+h4,h5,h6{ font-weight: bold; }
+h1{ font-size:2.5em; }
+h2{ font-size:2em; border-bottom:1px solid silver; padding-bottom: 5px; }
+h3{ font-size:1.5em; }
+h4{ font-size:1.2em; }
+h5{ font-size:1em; }
+h6{ font-size:0.9em; }
+
+blockquote{
+color:#666666;
+margin:0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+
+
+pre , code, kbd, samp { 
+  color: #000; 
+  font-family: monospace; 
+  font-size: 0.88em; 
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC; 
+}
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px 12px;}
+pre code { border: 0px !important; padding: 0;}
+code { padding: 0 3px 0 3px; }
+
+b, strong { font-weight: bold; }
+
+dfn { font-style: italic; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+@media only screen and (min-width: 480px) {
+body{font-size:14px;}
+}
+
+@media only screen and (min-width: 768px) {
+body{font-size:16px;}
+}
+
+@media print {
+  * { background: transparent !important; color: black !important; filter:none !important; -ms-filter: none !important; }
+  body{font-size:12pt; max-width:100%; outline:none;}
+  a, a:visited { text-decoration: underline; }
+  hr { height: 1px; border:0; border-bottom:1px solid black; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; padding-right: 1em; page-break-inside: avoid; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page :left { margin: 15mm 20mm 15mm 10mm; }
+  @page :right { margin: 15mm 10mm 15mm 20mm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style><title>post</title></head><body><p>When you develop hybrid mobile applications with Apache Cordova, at some point in time, you will need to use a device capability that the core Apache Cordova APIs just does not support. That's when you'll either dig through GitHub in search of a custom plugin, or you'll resort to writing one. Whatever the case, once you have the plugin in your hands, you'll need to install it to your project. </p>
+<p>Whether you're using Icenium or another set of tools for cross-platform mobile development, the go-to tool for installing custom plugins is Plugman. The thing is, Plugman has its own requirements that your custom plugin must meet.</p>
+<h2 id="what-does-plugman-compatible-mean">What Does Plugman-Compatible Mean?</h2>
+<p>To satisfy the almighty Plugman, a custom plugin should meet the following requirements.</p>
+<ul>
+<li>The plugin should have a valid directory structure.</li>
+<li>The plugin should contain a valid <code>plugin.xml</code> file.</li>
+</ul>
+<h2 id="requirement-35-1-valid-directory-structure">Requirement #1: Valid Directory Structure</h2>
+<p>This one is more of a recommendation and less of a requirement. The rules are pretty simple. </p>
+<ul>
+<li><code>plugin.xml</code> goes in the root of the plugin.</li>
+<li>The script file for the plugin goes in a <code>www</code> folder in the root of the plugin.</li>
+<li>Any platform-specific files go in an <code>src</code> foler in the root. Android files go in <code>src\android</code> and iOS files - in <code>src\ios</code>. Some additional rules apply to the platform-specific folders. (For example, you might need to put the Android files in a folder structure that represents the plugin identifier.)</li>
+</ul>
+<p>You can find the complete guide for the changes you need to make to the directory structure along with some examples <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/modify-directory-structure" target="_blank">here</a>. After you make all the necessary changes, your folder structure should look like that.</p>
+<p><img alt="Plugman-compatible directory structure for custom Apache Cordova plugins" src="making-plugman-compatible-1.png" title="Plugman-compatible directory structure for custom Apache Cordova plugins" /></p>
+<h2 id="requirement-35-2-valid-plugin-xml">Requirement #2: Valid plugin.xml</h2>
+<p>The <code>plugin.xml</code> file defines the entire plugin, including its structure, changes to the configuration files, dependencies, and so on. Plugman pulls all the data from plugin.xml and applies the corresponding changes to the structure and the configuration files of the application package. With a proper plugin.xml file, you do not need to go and add code to <code>Info.plist</code>, <code>AndroidManifest.xml</code>, or <code>config.xml</code> manually. Also, if you declare the plugin script in a <code>&lt;js-module&gt;</code> element, you do not need to reference the plugin script file in the <code>index.html</code> file for your app.</p>
+<p>You can find the complete <code>plugin.xml</code> specification <a href="http://cordova.apache.org/docs/en/3.0.0/plugin_ref_spec.md.html#Plugin%20Specification" target="_blank">here</a>. In a glimpse, it breaks down to the following steps.</p>
+<ol>
+<li>Define the document as an XML document.</li>
+<li>Declare the top-level <code>&lt;plugin&gt;</code> element with a plugin namespace, version, and identifier.</li>
+<li>Declare the files that contain the plugin functionality in an <code>&lt;asset&gt;</code> or a <code>&lt;js-module&gt;</code> element.<br/>With the <code>&lt;asset&gt;</code>, you declare one or more files of any type or folders that need to be copied to the application file structure. Such files and folders usually the plugin functionality and you need to reference them in <code>index.html</code>.<br/>With the <code>&lt;js-module&gt;</code> element, you declare one or more JavaScript files that contain the plugin functionality. You do not need to reference them in <code>index.html</code>.</li>
+<li>Declare the platform-specific information for each supported mobile platform in a separate <code>&lt;platform&gt;</code> element.<ol>
+<li>Declare any transformations that need to be made to <code>Info.plist</code>, <code>Android.xml</code> or <code>config.xml</code> in a <code>&lt;config-file&gt;</code> element.</li>
+<li>Declare the source, resource, and header files that contain the native functionality for the corresponding platform in <code>&lt;source-file&gt;</code>, <code>&lt;resource-file&gt;</code>, or <code>&lt;header-file&gt;</code> elements.</li>
+</ol>
+</li>
+</ol>
+<p>A more thorough overview of the process, including sample code, is available <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/create-modify-plugin-xml" target="_blank">here</a>.</p>
+<p>You can also use the following templates as a starting point. Just replace the placeholders with the correct values for your plugin and comment out or delete any unnecessary elements. Most of the time, the changes you will need to make to these templates will be trivial.</p>
+<table border="1">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Targeting iOS and Android</th>
+        <th>Targeting Android</th>
+        <th>Targeting iOS</th>
+    </tr>
+    <tr>
+        <th>Targeting Apache Cordova 2.x</th>
+        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/01-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/02-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/05-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/06-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/09-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/10-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+    </tr>
+    <tr>
+        <th>Targeting Apache Cordova 3.x</th>
+        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/03-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/04-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/07-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/08-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/11-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/12-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+    </tr>
+</table>
+
+<p>Sometimes, <code>plugin.xml</code> might require additional work though. For example, this is the case with the BarcodeScanner plugin which contains multiple source files and depends on some native iOS frameworks. Here's how you can check out the implementation of the BarcodeScanner plugin and its valid <code>plugin.xml</code> file in Icenium.</p>
+<p><embed src="making-plugman-compatible.swf" width="800" height="500"></p>
+<p>Or, you can enable any of the integrated plugins in an Icenium project and check out their corresponding <code>plugin.xml</code> files for reference.</p>
+<p><embed src="making-plugman-compatible-1.swf" width="800" height="500"></p>
+<h2 id="last-but-not-least">Last but Not Least</h2>
+<p>When using a custom plugin, Plugman-compatible or not, make sure that the plugin is compatible with the target Apache Cordova version of your project. </p>
+<p>If after you cover the requirements of Plugman, you are still unable to install the custom plugin, you might want to poke around the plugin code and update it. You can check out some of these resources as a starting point.</p>
+<ul>
+<li><a href="http://devgirl.org/2013/09/17/how-to-write-a-phonegap-3-0-plugin-for-android/" target="_blank">How to Write a PhoneGap 3.0 Plugin for Android</a></li>
+<li><a href="http://simonmacdonald.blogspot.ca/2013/06/why-dont-my-plugins-work-in-phonegap.html" target="_blank">Why Don't My Plugins Work in PhoneGap Android 2.7?</a></li>
+<li><a href="https://github.com/phonegap/phonegap/blob/master/lib/ios/guides/Cordova%20Plugin%20Upgrade%20Guide.md" target="_blank">Cordova Plugin Upgrade Guide</a></li>
+</ul></body></html>

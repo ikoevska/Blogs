@@ -2,7 +2,7 @@ When you develop hybrid mobile applications with Apache Cordova, at some point i
 
 Whether you're using Icenium or another set of tools for cross-platform mobile development, the go-to tool for installing custom plugins is Plugman. The thing is, Plugman has its own requirements that your custom plugin must meet.
 
-## What does Plugman-compatible mean?
+## What Does Plugman-Compatible Mean?
 
 To satisfy the almighty Plugman, a custom plugin should meet the following requirements.
 
