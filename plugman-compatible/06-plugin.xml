@@ -1,0 +1,49 @@
+<!-- This plugin.xml template is applicable to plugins that target Apache Cordova 2.x and Android.
+    The plugin script file is declared in a <js-module> element. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.custom.plugin.CustomCordovaPlugin"
+    version="1.0.0">
+
+    <name>Custom Cordova Plugin</name>
+
+    <!-- android -->
+    <platform name="android">
+
+    <!-- The target file path declared in the js-module element is relative to the root directory
+        of the installed app. You do not need to add a script include for the target in index.html. 
+        To access the plugin functionality with `window.custom.cordovaPlugin`,
+            declare the <clobbers> element.
+        To access the plugin functionality with `cordova.require`,
+            do not declare the <clobbers> element. -->
+
+    <js-module src="www/CustomCordovaPlugin.js" name="CustomCordovaPlugin">
+        <clobbers target="custom.cordovaPlugin" />
+    </js-module>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <activity android:name="com.custom.plugin.CustomCordovaPlugin"
+            android:label="@string/app_name">
+            <intent-filter></intent-filter> <!-- Sets intents that the plugin requires. Comment out if not needed. -->
+            <uses-permission></uses-permission> <!-- Sets permissions that the plugin requires. Comment out if not needed. -->
+            <uses-sdk></uses-sdk> <!-- Sets SDK versions that the plugins requires. Comment out if not needed. -->
+            
+            <!-- Insert any other AndroidManifest.xml element that you might need to declare. For example, <supports-screens>, <uses-library>, etc. -->
+        
+        </activity>
+    </config-file>
+
+    <config-file target="res/xml/config.xml" parent="plugins"> 
+
+            <plugin name="Custom Cordova Plugin" value="com.custom.plugin.CustomCordovaPlugin"/>
+
+            <!-- Insert any other config.xml element that you might need to declare for Android. For example, preferences such as keepRunning, disallowOverscroll, etc. -->
+
+    </config-file>
+
+    <source-file src="src/android/com/custom/plugin/CustomCordovaPlugin.java" target-dir="src/com/custom/plugin"/> 
+
+    </platform>
+
+</plugin>

@@ -1,0 +1,46 @@
+<!-- This plugin.xml template is applicable to plugins that target Apache Cordova 3.x and iOS.
+    The plugin script file is declared in a <js-module> element. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    id="com.custom.plugin.CustomCordovaPlugin"
+    version="1.0.0">
+
+    <name>Custom Cordova Plugin</name>
+
+    <!-- ios -->
+    <platform name="ios">
+
+        <!-- The target file path declared in the js-module element is relative to the root directory
+            of the installed app. You do not need to add a script include for the target in index.html. 
+            To access the plugin functionality with `window.custom.cordovaPlugin`,
+            declare the <clobbers> element.
+            To access the plugin functionality with `cordova.require`,
+            do not declare the <clobbers> element. -->
+
+        <js-module src="www/CustomCordovaPlugin.js" name="CustomCordovaPlugin">
+            <clobbers target="custom.cordovaPlugin" />
+        </js-module>
+
+        <config-file target="Info.plist" parent="CFBundleURLTypes"> <!-- Sets the parent key to be modified. You can set any valid Info.plist key. Most plugins do not require changes to Info.plist. Comment out if not needed. -->
+            <array>
+                <dict>
+                    <key></key>
+                </dict>
+            </array>
+        </config-file>
+
+        <config-file target="res/xml/config.xml" parent="widget"> 
+
+            <feature name="Custom Cordova Plugin" value="com.custom.plugin.CustomCordovaPlugin"/>
+
+            <!-- Insert any other config.xml element that you might need to declare for iOS. For example, preferences such as keyboardShrinksView, disallowOverscroll, etc. -->
+
+        </config-file>
+
+        <header-file src="src/ios/CustomCordovaPlugin.h" />
+        <source-file src="src/ios/CustomCordovaPlugin.m" />
+        <resource-file src="CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. Comment out if not needed. -->
+                 
+    </platform>
+
+</plugin>
