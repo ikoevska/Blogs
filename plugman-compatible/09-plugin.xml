@@ -1,39 +1,37 @@
 <!-- This plugin.xml template is applicable to plugins that target Apache Cordova 2.x and iOS.
-    The plugin script file is declared in an <asset> element. -->
+    The file that contains the plugin functionality is declared in an <asset> element. -->
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-    id="com.custom.plugin.CustomCordovaPlugin"
-    version="1.0.0">
+        id="com.custom.plugin.CustomCordovaPlugin"
+        version="1.0.0">
+  
+  <name>CustomCordovaPlugin</name>
+  
+  <!-- ios -->
+  <platform name="ios">
 
-    <name>Custom Cordova Plugin</name>
+    <!-- Declares files and folders that contain the plugin functionality and need to be copied to the application file structure. Might be any file type. The target file path declared in the asset element is relative to the root directory of the installed app. You need to reference the target in your code. -->
+    <asset src="www/CustomCordovaPlugin.js" target="CustomCordovaPlugin.js" />
 
-    <!-- ios -->
-    <platform name="ios">
-
-        <!-- The target file path declared in the asset element is relative to the root directory
-        of the installed app. You need to add a script include for the target in index.html. -->
-        <asset src="www/CustomCordovaPlugin.js" target="CustomCordovaPlugin.js" />
-
-        <config-file target="Info.plist" parent="CFBundleURLTypes"> <!-- Sets the parent key to be modified. You can set any valid Info.plist key. Most plugins do not require changes to Info.plist. Comment out if not needed. -->
-            <array>
-                <dict>
-                    <key></key>
-                </dict>
-            </array>
-        </config-file>
-
-        <config-file target="res/xml/config.xml" parent="plugins"> 
-
-            <plugin name="Custom Cordova Plugin" value="com.custom.plugin.CustomCordovaPlugin"/>
-
-            <!-- Insert any other config.xml element that you might need to declare for iOS. For example, preferences such as keyboardShrinksView, disallowOverscroll, etc. -->
-
-        </config-file>
-
-        <header-file src="src/ios/CustomCordovaPlugin.h" /> 
-        <source-file src="src/ios/CustomCordovaPlugin.m" />
-        <resource-file src="CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. Comment out if not needed. -->
-
-    </platform>
-
+    <config-file target="Info.plist" parent="CFBundleURLTypes"> <!-- Sets the parent XML key to be modified. For separate parents, make sure to use separate <config-file> elements with the proper parent. -->
+      <array>
+        <dict>
+          <key></key> <!-- Just a sample. -->
+        </dict>
+      </array>
+    </config-file>
+    
+    <config-file target="res/xml/config.xml" parent="plugins">
+      <plugin name="CustomCordovaPlugin" value="com.custom.plugin.CustomCordovaPlugin"/>
+    </config-file>
+    
+    <config-file target="res/xml/config.xml" parent="widget">
+      <preference name="DisallowOverscroll" value="true"/> <!-- Just a sample. -->
+      <!-- Insert any other config.xml element that you might need to declare for iOS. For example, preferences such as keyboardShrinksView, disallowOverscroll, etc. -->
+    </config-file>
+    
+    <header-file src="src/ios/CustomCordovaPlugin.h" />
+    <source-file src="src/ios/CustomCordovaPlugin.m" />
+    <resource-file src="CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. -->
+  </platform>
 </plugin>

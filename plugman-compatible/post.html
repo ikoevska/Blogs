@@ -121,36 +121,32 @@ body{font-size:16px;}
   h2, h3 { page-break-after: avoid; }
 }
 </style><title>post</title></head><body><p>When you develop hybrid mobile applications with Apache Cordova, at some point in time, you will need to use a device capability that the core Apache Cordova APIs just does not support. That's when you'll either dig through GitHub in search of a custom plugin, or you'll resort to writing one. Whatever the case, once you have the plugin in your hands, you'll need to install it to your project. </p>
-<p>Whether you're using Icenium or another set of tools for cross-platform mobile development, the go-to tool for installing custom plugins is Plugman. The thing is, Plugman has its own requirements that your custom plugin must meet.</p>
+<p>Whether you're using Icenium or another set of tools for cross-platform mobile development, the go-to tool for installing custom plugins is <a href="https://github.com/apache/cordova-plugman" target="_blank">Plugman</a>. The thing is, Plugman has its own requirements that your custom plugin must meet.</p>
 <h2 id="what-does-plugman-compatible-mean">What Does Plugman-Compatible Mean?</h2>
 <p>To satisfy the almighty Plugman, a custom plugin should meet the following requirements.</p>
 <ul>
-<li>The plugin should have a valid directory structure.</li>
 <li>The plugin should contain a valid <code>plugin.xml</code> file.</li>
+<li>The plugin should have a valid directory structure.</li>
 </ul>
-<h2 id="requirement-35-1-valid-directory-structure">Requirement #1: Valid Directory Structure</h2>
-<p>This one is more of a recommendation and less of a requirement. The rules are pretty simple. </p>
-<ul>
-<li><code>plugin.xml</code> goes in the root of the plugin.</li>
-<li>The script file for the plugin goes in a <code>www</code> folder in the root of the plugin.</li>
-<li>Any platform-specific files go in an <code>src</code> foler in the root. Android files go in <code>src\android</code> and iOS files - in <code>src\ios</code>. Some additional rules apply to the platform-specific folders. (For example, you might need to put the Android files in a folder structure that represents the plugin identifier.)</li>
-</ul>
-<p>You can find the complete guide for the changes you need to make to the directory structure along with some examples <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/modify-directory-structure" target="_blank">here</a>. After you make all the necessary changes, your folder structure should look like that.</p>
-<p><img alt="Plugman-compatible directory structure for custom Apache Cordova plugins" src="making-plugman-compatible-1.png" title="Plugman-compatible directory structure for custom Apache Cordova plugins" /></p>
-<h2 id="requirement-35-2-valid-plugin-xml">Requirement #2: Valid plugin.xml</h2>
-<p>The <code>plugin.xml</code> file defines the entire plugin, including its structure, changes to the configuration files, dependencies, and so on. Plugman pulls all the data from plugin.xml and applies the corresponding changes to the structure and the configuration files of the application package. With a proper plugin.xml file, you do not need to go and add code to <code>Info.plist</code>, <code>AndroidManifest.xml</code>, or <code>config.xml</code> manually. Also, if you declare the plugin script in a <code>&lt;js-module&gt;</code> element, you do not need to reference the plugin script file in the <code>index.html</code> file for your app.</p>
-<p>You can find the complete <code>plugin.xml</code> specification <a href="http://cordova.apache.org/docs/en/3.0.0/plugin_ref_spec.md.html#Plugin%20Specification" target="_blank">here</a>. In a glimpse, it breaks down to the following steps.</p>
+<h2 id="requirement-35-1-valid-plugin-xml">Requirement #1: Valid plugin.xml</h2>
+<p>The <code>plugin.xml</code> file defines the entire plugin, including its structure, changes to the configuration files, dependencies, and so on. Plugman pulls all the data from <code>plugin.xml</code> and applies the corresponding changes to the structure and the configuration files of the application package. With a proper plugin.xml file, you do not need to go and add code to <code>Info.plist</code>, <code>AndroidManifest.xml</code>, or <code>config.xml</code> manually. Also, if you declare the plugin JavaScript file in a <code>&lt;js-module&gt;</code> element, you do not need to reference the plugin script file in the <code>index.html</code> file for your app.</p>
+<p>You can find the complete <code>plugin.xml</code> specification <strong><a href="http://cordova.apache.org/docs/en/3.0.0/plugin_ref_spec.md.html#Plugin%20Specification" target="_blank">here</a></strong>. In a glimpse, it breaks down to the following steps.</p>
 <ol>
 <li>Define the document as an XML document.</li>
 <li>Declare the top-level <code>&lt;plugin&gt;</code> element with a plugin namespace, version, and identifier.</li>
-<li>Declare the files that contain the plugin functionality in an <code>&lt;asset&gt;</code> or a <code>&lt;js-module&gt;</code> element.<br/>With the <code>&lt;asset&gt;</code>, you declare one or more files of any type or folders that need to be copied to the application file structure. Such files and folders usually the plugin functionality and you need to reference them in <code>index.html</code>.<br/>With the <code>&lt;js-module&gt;</code> element, you declare one or more JavaScript files that contain the plugin functionality. You do not need to reference them in <code>index.html</code>.</li>
+<li>Declare the files that contain the plugin functionality in an <code>&lt;asset&gt;</code> or a <code>&lt;js-module&gt;</code> element.<br/>With the <code>&lt;asset&gt;</code>, you declare one or more files of any type or folders that need to be copied to the application file structure. These files and folders contain the plugin functionality and you need to explicitly reference them from the application code.<br/>With the <code>&lt;js-module&gt;</code> element, you declare one or more JavaScript files in the CommonJS module format. These files contain the plugin functionality and you do not need to reference them from the application code. You do not need to make any references because Apache Cordova handles any <script> includes for you.</li>
 <li>Declare the platform-specific information for each supported mobile platform in a separate <code>&lt;platform&gt;</code> element.<ol>
-<li>Declare any transformations that need to be made to <code>Info.plist</code>, <code>Android.xml</code> or <code>config.xml</code> in a <code>&lt;config-file&gt;</code> element.</li>
+<li>Declare any transformations that need to be made to the configuration files in a <code>&lt;config-file&gt;</code> element. Set the path and the parent XML element for the changes.<ol>
+<li>Add the plugin to <code>config.xml</code> to map it to the native APIs.<br/>For Apache Cordova 2.x projects, use the <code>&lt;plugin&gt;</code> element.<br/>For Apache Cordova 3.x projects, use the <code>&lt;feature&gt;</code> element.</li>
+<li>Add any permissions, activities, intents, and other configuration settings that the plugin requires for Android to <code>AndroidManifest.xml</code>.<br/>Use the same markup you would use when editing <code>AndroidManifest.xml</code> manually.</li>
+<li>Add any configuration settings that the plugin requires for iOS to <code>Info.plist</code>.<br/>Use the same markup you would use when editing <code>Info.plist</code> manually.</li>
+</ol>
+</li>
 <li>Declare the source, resource, and header files that contain the native functionality for the corresponding platform in <code>&lt;source-file&gt;</code>, <code>&lt;resource-file&gt;</code>, or <code>&lt;header-file&gt;</code> elements.</li>
 </ol>
 </li>
 </ol>
-<p>A more thorough overview of the process, including sample code, is available <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/create-modify-plugin-xml" target="_blank">here</a>.</p>
+<p>A more thorough overview of the process, including sample code, is available <strong><a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/create-modify-plugin-xml" target="_blank">here</a></strong>.</p>
 <p>You can also use the following templates as a starting point. Just replace the placeholders with the correct values for your plugin and comment out or delete any unnecessary elements. Most of the time, the changes you will need to make to these templates will be trivial.</p>
 <table border="1">
     <tr>
@@ -161,22 +157,31 @@ body{font-size:16px;}
     </tr>
     <tr>
         <th>Targeting Apache Cordova 2.x</th>
-        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/01-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/02-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
-        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/05-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/06-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
-        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/09-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/10-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="01-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="02-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="05-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="06-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="09-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="10-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
     </tr>
     <tr>
         <th>Targeting Apache Cordova 3.x</th>
-        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/03-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/04-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
-        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/07-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/08-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
-        <td>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/11-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="file://C:\Users\koevska\Documents\GitHub\Blogs\plugman-compatible/12-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="03-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="04-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="07-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="08-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
+        <td>A <b><a href="11-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;asset&gt;</code> element.<br/>A <b><a href="12-plugin.xml" target="_blank">plugin.xml</a></b> template using the <code>&lt;js-module&gt;</code> element.</td>
     </tr>
 </table>
 
 <p>Sometimes, <code>plugin.xml</code> might require additional work though. For example, this is the case with the BarcodeScanner plugin which contains multiple source files and depends on some native iOS frameworks. Here's how you can check out the implementation of the BarcodeScanner plugin and its valid <code>plugin.xml</code> file in Icenium.</p>
 <p><embed src="making-plugman-compatible.swf" width="800" height="500"></p>
-<p>Or, you can enable any of the integrated plugins in an Icenium project and check out their corresponding <code>plugin.xml</code> files for reference.</p>
+<p>Or, you can <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-integrated-plugins/add-plugins" target="_blank">enable any of the integrated plugins</a> in an Icenium project and check out their corresponding <code>plugin.xml</code> files for reference.</p>
 <p><embed src="making-plugman-compatible-1.swf" width="800" height="500"></p>
+<h2 id="requirement-35-2-valid-directory-structure">Requirement #2: Valid Directory Structure</h2>
+<p>This one is more of a recommendation and less of a requirement. The rules are pretty simple. </p>
+<ul>
+<li><code>plugin.xml</code> goes in the root of the plugin.</li>
+<li>The script file for the plugin goes in a <code>www</code> folder in the root of the plugin.</li>
+<li>Any platform-specific files go in an <code>src</code> foler in the root. Android files go in <code>src\android</code> and iOS files - in <code>src\ios</code>. Some additional rules apply to the platform-specific folders. (For example, you might need to put the Android files in a folder structure that represents the <code>package</code> declaration in the <code>JAVA</code> file for the plugin.)</li>
+</ul>
+<p>You can find the complete guide for the changes you need to make to the directory structure along with some examples <strong><a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/modify-directory-structure" target="_blank">here</a></strong>. After you make all the necessary changes, your folder structure should look like this.</p>
+<p><img alt="Plugman-compatible directory structure for custom Apache Cordova plugins" src="making-plugman-compatible-1.png" title="Plugman-compatible directory structure for custom Apache Cordova plugins" /></p>
 <h2 id="last-but-not-least">Last but Not Least</h2>
 <p>When using a custom plugin, Plugman-compatible or not, make sure that the plugin is compatible with the target Apache Cordova version of your project. </p>
 <p>If after you cover the requirements of Plugman, you are still unable to install the custom plugin, you might want to poke around the plugin code and update it. You can check out some of these resources as a starting point.</p>

@@ -1,67 +1,60 @@
 <!-- This plugin.xml template is applicable to plugins that target Apache Cordova 2.x and both iOS and Android.
-    The plugin script file is declared in an <asset> element. -->
+    The file that contains the plugin functionality is declared in an <asset> element. -->
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.custom.plugin.CustomCordovaPlugin"
-    version="1.0.0">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.custom.plugin.CustomCordovaPlugin"
+        version="1.0.0">
 
-    <name>Custom Cordova Plugin</name>
+  <name>CustomCordovaPlugin</name>
 
-    <!-- The target file path declared in the asset element is relative to the root directory
-        of the installed app. You need to add a script include for the target in index.html. -->
-    <asset src="www/CustomCordovaPlugin.js" target="CustomCordovaPlugin.js" />
+  <!-- Declares files and folders that contain the plugin functionality and need to be copied to the application file structure. Might be any file type. The target file path declared in the asset element is relative to the root directory of the installed app. You need to reference the target in your code. -->  
+  <asset src="www/CustomCordovaPlugin.js" target="CustomCordovaPlugin.js" />
 
-    <!-- android -->
-    <platform name="android">
-
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <activity android:name="com.custom.plugin.CustomCordovaPlugin"
+  <!-- android -->
+  <platform name="android">
+    <config-file target="AndroidManifest.xml" parent="/manifest/application"> <!-- Sets the parent XML key to be modified. For separate parents, make sure to use separate <config-file> elements with the proper parent. -->
+      <activity android:name="com.custom.plugin.CustomCordovaPlugin"
                 android:label="@string/app_name">
-                <intent-filter></intent-filter> <!-- Sets intents that the plugin requires. Comment out if not needed. -->
-                <uses-permission></uses-permission> <!-- Sets permissions that the plugin requires. Comment out if not needed. -->
-                <uses-sdk></uses-sdk> <!-- Sets SDK versions that the plugins requires. Comment out if not needed. -->
+        <intent-filter></intent-filter> <!-- Just a sample. -->
+      </activity>
+      <receiver></receiver> <!-- Just a sample. -->
+      <provider></provider> <!-- Just a sample. -->
+    </config-file>
+    
+    <config-file target="res/xml/config.xml" parent="plugins">
+      <plugin name="CustomCordovaPlugin" value="com.custom.plugin.CustomCordovaPlugin"/>      
+    </config-file>
 
-                <!-- Insert any other AndroidManifest.xml element that you might need to declare. For example, <supports-screens>, <uses-library>, etc. -->
+    <config-file target="res/xml/config.xml" parent="widget">
+      <preference name="DisallowOverscroll" value="true"/> <!-- Just a sample. -->
+      <!-- Insert any other config.xml element that you might need to declare for iOS. For example, preferences such as keyboardShrinksView, disallowOverscroll, etc. -->
+    </config-file>
+    
+    <source-file src="src/android/com/custom/plugin/CustomCordovaPlugin.java" target-dir="src/com/custom/plugin"/>
+  </platform>
+  
+  <!-- ios -->
+  <platform name="ios">
+    <config-file target="Info.plist" parent="CFBundleURLTypes"> <!-- Sets the parent XML key to be modified. For separate parents, make sure to use separate <config-file> elements with the proper parent. -->
+      <array>
+        <dict>
+          <key></key> <!-- Just a sample. -->
+        </dict>
+      </array>
+    </config-file>
+    
+    <config-file target="res/xml/config.xml" parent="plugins">
+      <plugin name="CustomCordovaPlugin" value="com.custom.plugin.CustomCordovaPlugin"/>
+    </config-file>
 
-            </activity>
-        </config-file>
-
-        <config-file target="res/xml/config.xml" parent="plugins"> 
-
-            <plugin name="Custom Cordova Plugin" value="com.custom.plugin.CustomCordovaPlugin"/>
-
-            <!-- Insert any other config.xml element that you might need to declare for Android. For example, preferences such as keepRunning, disallowOverscroll, etc. -->
-
-        </config-file>
-
-        <source-file src="src/android/com/custom/plugin/CustomCordovaPlugin.java" target-dir="src/com/custom/plugin"/> 
-
-    </platform>
-
-    <!-- ios -->
-    <platform name="ios">
-
-        <config-file target="Info.plist" parent="CFBundleURLTypes"> <!-- Sets the parent key to be modified. You can set any valid Info.plist key. Most plugins do not require changes to Info.plist. Comment out if not needed. -->
-            <array>
-                <dict>
-                    <key></key>
-                </dict>
-            </array>
-        </config-file>
-
-        <config-file target="res/xml/config.xml" parent="plugins"> 
-
-            <plugin name="Custom Cordova Plugin" value="com.custom.plugin.CustomCordovaPlugin"/>
-
-            <!-- Insert any other config.xml element that you might need to declare for iOS. For example, preferences such as keyboardShrinksView, disallowOverscroll, etc. -->
-
-        </config-file>
-
-        <header-file src="src/ios/CustomCordovaPlugin.h" /> 
-        <source-file src="src/ios/CustomCordovaPlugin.m" />
-        <resource-file src="CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. Comment out if not needed. -->
-
-    </platform>
-
+    <config-file target="res/xml/config.xml" parent="widget">
+      <preference name="DisallowOverscroll" value="true"/> <!-- Just a sample. -->
+      <!-- Insert any other config.xml element that you might need to declare for iOS. For example, preferences such as keyboardShrinksView, disallowOverscroll, etc. -->
+    </config-file>
+    
+    <header-file src="src/ios/CustomCordovaPlugin.h" /> 
+    <source-file src="src/ios/CustomCordovaPlugin.m" />
+    <resource-file src="CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. -->
+  </platform>
 </plugin>

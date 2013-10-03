@@ -13,16 +13,19 @@ To satisfy the almighty Plugman, a custom plugin should meet the following requi
 
 The `plugin.xml` file defines the entire plugin, including its structure, changes to the configuration files, dependencies, and so on. Plugman pulls all the data from `plugin.xml` and applies the corresponding changes to the structure and the configuration files of the application package. With a proper plugin.xml file, you do not need to go and add code to `Info.plist`, `AndroidManifest.xml`, or `config.xml` manually. Also, if you declare the plugin JavaScript file in a <code>&lt;js-module&gt;</code> element, you do not need to reference the plugin script file in the `index.html` file for your app.
 
-You can find the complete `plugin.xml` specification <a href="http://cordova.apache.org/docs/en/3.0.0/plugin_ref_spec.md.html#Plugin%20Specification" target="_blank">here</a>. In a glimpse, it breaks down to the following steps.
+You can find the complete `plugin.xml` specification **<a href="http://cordova.apache.org/docs/en/3.0.0/plugin_ref_spec.md.html#Plugin%20Specification" target="_blank">here</a>**. In a glimpse, it breaks down to the following steps.
 
 1. Define the document as an XML document.
 1. Declare the top-level `<plugin>` element with a plugin namespace, version, and identifier.
-1. Declare the files that contain the plugin functionality in an `<asset>` or a `<js-module>` element.<br/>With the <code>&lt;asset&gt;</code>, you declare one or more files of any type or folders that need to be copied to the application file structure. Such files and folders contain the plugin functionality and you need to reference them in `index.html`.<br/>With the <code>&lt;js-module&gt;</code> element, you declare one or more JavaScript files that contain the plugin functionality and are . You do not need to reference them in `index.html`.
+1. Declare the files that contain the plugin functionality in an `<asset>` or a `<js-module>` element.<br/>With the <code>&lt;asset&gt;</code>, you declare one or more files of any type or folders that need to be copied to the application file structure. These files and folders contain the plugin functionality and you need to explicitly reference them from the application code.<br/>With the <code>&lt;js-module&gt;</code> element, you declare one or more JavaScript files in the CommonJS module format. These files contain the plugin functionality and you do not need to reference them from the application code. You do not need to make any references because Apache Cordova handles any <script> includes for you.
 1. Declare the platform-specific information for each supported mobile platform in a separate `<platform>` element.
-	1. Declare any transformations that need to be made to `Info.plist`, `AndroidManifest.xml` or `config.xml` in a `<config-file>` element.
+	1. Declare any transformations that need to be made to the configuration files in a `<config-file>` element. Set the path and the parent XML element for the changes.
+		1. Add the plugin to `config.xml` to map it to the native APIs.<br/>For Apache Cordova 2.x projects, use the `<plugin>` element.<br/>For Apache Cordova 3.x projects, use the `<feature>` element.
+		1. Add any permissions, activities, intents, and other configuration settings that the plugin requires for Android to `AndroidManifest.xml`.<br/>Use the same markup you would use when editing `AndroidManifest.xml` manually.
+		1. Add any configuration settings that the plugin requires for iOS to `Info.plist`.<br/>Use the same markup you would use when editing `Info.plist` manually.
 	1. Declare the source, resource, and header files that contain the native functionality for the corresponding platform in `<source-file>`, `<resource-file>`, or `<header-file>` elements.
 
-A more thorough overview of the process, including sample code, is available <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/create-modify-plugin-xml" target="_blank">here</a>.
+A more thorough overview of the process, including sample code, is available **<a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/create-modify-plugin-xml" target="_blank">here</a>**.
 
 You can also use the following templates as a starting point. Just replace the placeholders with the correct values for your plugin and comment out or delete any unnecessary elements. Most of the time, the changes you will need to make to these templates will be trivial.
 
@@ -51,7 +54,7 @@ Sometimes, `plugin.xml` might require additional work though. For example, this 
 
 <embed src="making-plugman-compatible.swf" width="800" height="500">
 
-Or, you can enable any of the integrated plugins in an Icenium project and check out their corresponding `plugin.xml` files for reference.
+Or, you can <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-integrated-plugins/add-plugins" target="_blank">enable any of the integrated plugins</a> in an Icenium project and check out their corresponding `plugin.xml` files for reference.
 
 <embed src="making-plugman-compatible-1.swf" width="800" height="500">
 
@@ -63,7 +66,7 @@ This one is more of a recommendation and less of a requirement. The rules are pr
 * The script file for the plugin goes in a `www` folder in the root of the plugin.
 * Any platform-specific files go in an `src` foler in the root. Android files go in `src\android` and iOS files - in `src\ios`. Some additional rules apply to the platform-specific folders. (For example, you might need to put the Android files in a folder structure that represents the `package` declaration in the `JAVA` file for the plugin.)
 
-You can find the complete guide for the changes you need to make to the directory structure along with some examples <a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/modify-directory-structure" target="_blank">here</a>. After you make all the necessary changes, your folder structure should look like this.
+You can find the complete guide for the changes you need to make to the directory structure along with some examples **<a href="http://docs.icenium.com/creating-your-project/using-plugins/using-custom-plugins/making-plugman-compatible/modify-directory-structure" target="_blank">here</a>**. After you make all the necessary changes, your folder structure should look like this.
 
 ![Plugman-compatible directory structure for custom Apache Cordova plugins](making-plugman-compatible-1.png "Plugman-compatible directory structure for custom Apache Cordova plugins")
 
