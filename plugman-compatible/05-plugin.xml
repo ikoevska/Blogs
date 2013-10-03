@@ -11,10 +11,10 @@
   <!-- android -->
   <platform name="android">
 
-    <!-- Declares files and folders that contain the plugin functionality and need to be copied to the application file structure. Might be any file type. The target file path declared in the asset element is relative to the root directory of the installed app. You need to reference the target in your code. -->
+    <!-- Declare files and folders that contain the plugin functionality and need to be copied to the application file structure. Might be any file type. The target file path declared in the asset element is relative to the root directory of the installed app. You need to reference the target in your code. -->
     <asset src="www/CustomCordovaPlugin.js" target="CustomCordovaPlugin.js" />
 
-    <config-file target="AndroidManifest.xml" parent="/manifest/application"> <!-- Sets the parent XML key to be modified. For separate parents, make sure to use separate <config-file> elements with the proper parent. -->
+    <config-file target="AndroidManifest.xml" parent="/manifest/application"> <!-- Set the parent XML key to be modified. For separate parents, make sure to use separate <config-file> elements with the proper parent. -->
       <activity android:name="com.custom.plugin.CustomCordovaPlugin"
                 android:label="@string/app_name">
         <intent-filter></intent-filter> <!-- Just a sample. -->
