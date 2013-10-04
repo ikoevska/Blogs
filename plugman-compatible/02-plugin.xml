@@ -59,6 +59,6 @@
 
     <header-file src="src/ios/CustomCordovaPlugin.h" />
     <source-file src="src/ios/CustomCordovaPlugin.m" />
-    <resource-file src="CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. -->
+    <resource-file src="src/ios/CustomCordovaPlugin.bundle" /> <!-- Declare any resource files such as .bundle and .xib. -->
   </platform>
 </plugin>
